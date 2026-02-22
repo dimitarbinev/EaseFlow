@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import admin, { messaging } from "firebase-admin"
-import {db, webApiKey,auth} from '../config/firbase'
+import {db} from '../config/firbase'
 import {catch_async} from "../middleware/middleware"
 
 export const sign_up = catch_async(async (req: Request, res: Response) => {
@@ -55,7 +55,7 @@ export const sign_up = catch_async(async (req: Request, res: Response) => {
         })
 
         await db.collection('users').doc(guardianId).update({
-            linkedChilder: admin.firestore.FieldValue.arrayUnion(uid)
+            linkedChildren: admin.firestore.FieldValue.arrayUnion(uid)
         })
 
         return res.status(201).json({message: "Child profile created and linked"})
@@ -65,7 +65,7 @@ export const sign_up = catch_async(async (req: Request, res: Response) => {
 export const login = catch_async(async (req: Request, res: Response) => {
     const uid = req.user?.uid as string;
 
-    const doc = await admin.firestore().collection('users').doc(uid).get()
+    const doc = await db.collection('users').doc(uid).get()
 
     if (!doc.exists) {
       return res.status(404).json({ message: "Profile not found" });

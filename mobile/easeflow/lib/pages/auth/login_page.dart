@@ -18,7 +18,8 @@ class _LoginPageState extends State<LoginPage> {
   bool _loading = false;
 
   // Replace with your backend endpoint
-  final String backendUrl = 'https://jamie-subsatirical-abbreviatedly.ngrok-free.dev/auth/login';
+  final String backendUrl =
+      'https://jamie-subsatirical-abbreviatedly.ngrok-free.dev/auth/login';
 
   Future<void> _login() async {
     // ✅ Safe validation
@@ -28,10 +29,11 @@ class _LoginPageState extends State<LoginPage> {
 
     try {
       // 1️⃣ Sign in with Firebase
-      final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text,
-      );
+      final userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+            email: emailController.text.trim(),
+            password: passwordController.text,
+          );
 
       // 2️⃣ Get Firebase ID token
       final idToken = await userCredential.user?.getIdToken();
@@ -67,9 +69,9 @@ class _LoginPageState extends State<LoginPage> {
       );
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('An error occurred: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('An error occurred: $e')));
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -100,7 +102,9 @@ class _LoginPageState extends State<LoginPage> {
                       const Text(
                         'EaseFlow Login',
                         style: TextStyle(
-                            fontSize: 32, fontWeight: FontWeight.bold),
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       const SizedBox(height: 40),
 
@@ -111,8 +115,9 @@ class _LoginPageState extends State<LoginPage> {
                           labelText: 'Email',
                           border: OutlineInputBorder(),
                         ),
-                        validator: (value) =>
-                            value == null || value.isEmpty ? 'Enter email' : null,
+                        validator: (value) => value == null || value.isEmpty
+                            ? 'Enter email'
+                            : null,
                       ),
                       const SizedBox(height: 20),
 
@@ -134,8 +139,14 @@ class _LoginPageState extends State<LoginPage> {
                       DropdownButtonFormField<String>(
                         initialValue: role,
                         items: const [
-                          DropdownMenuItem(value: 'guardian', child: Text('Guardian')),
-                          DropdownMenuItem(value: 'child', child: Text('Child')),
+                          DropdownMenuItem(
+                            value: 'guardian',
+                            child: Text('Guardian'),
+                          ),
+                          DropdownMenuItem(
+                            value: 'child',
+                            child: Text('Child'),
+                          ),
                         ],
                         onChanged: (value) {
                           if (value != null) setState(() => role = value);
@@ -162,7 +173,8 @@ class _LoginPageState extends State<LoginPage> {
 
                       // GO TO SIGNUP
                       TextButton(
-                        onPressed: () => Navigator.pushNamed(context, '/signup'),
+                        onPressed: () =>
+                            Navigator.pushNamed(context, '/signup'),
                         child: const Text("Don't have an account? Sign up"),
                       ),
                     ],

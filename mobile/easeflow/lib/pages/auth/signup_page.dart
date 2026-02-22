@@ -141,6 +141,7 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                   if (role == 'child') const SizedBox(height: 20),
 
+<<<<<<< Updated upstream
                   // SIGNUP BUTTON
                   SizedBox(
                     width: double.infinity,
@@ -149,6 +150,23 @@ class _SignupPageState extends State<SignupPage> {
                       onPressed: _signup,
                       child: const Text('Create Account'),
                     ),
+=======
+                const SizedBox(height: 20),
+
+                // ROLE
+                DropdownButtonFormField<String>(
+                  initialValue: role,
+                  items: const [
+                    DropdownMenuItem(
+                        value: 'parent', child: Text('Parent')),
+                    DropdownMenuItem(
+                        value: 'child', child: Text('Child')),
+                  ],
+                  onChanged: (value) => setState(() => role = value!),
+                  decoration: const InputDecoration(
+                    labelText: 'Register as',
+                    border: OutlineInputBorder(),
+>>>>>>> Stashed changes
                   ),
 
                   const SizedBox(height: 16),

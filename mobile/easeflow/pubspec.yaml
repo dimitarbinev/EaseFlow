@@ -9,8 +9,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
   flutter_dotenv: ^6.0.0
-  firebase_core: ^4.4.0
+  firebase_core: ^4.4.0   # latest stable in 2.x series
+  firebase_auth: ^6.1.4    # compatible with firebase_core 2.x
+  http: ^1.1.0
 
   # Firebase
   firebase_core: ^4.4.0

@@ -1,5 +1,7 @@
+// lib/main.dart
+
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart'; // <- this is required
+import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -7,11 +9,15 @@ import 'pages/auth/login_page.dart';
 import 'pages/auth/signup_page.dart';
 import 'pages/home_page.dart';
 import 'pages/child/child_home_page.dart';
+import 'pages/child/child_tasks_page.dart';
 import 'pages/create_task_page.dart';
 import 'pages/manage_tasks_page.dart';
 import 'pages/person_info_page.dart';
 import 'pages/settings_page.dart';
+import 'models/task_model.dart'; // make sure this exists
 
+// 📝 Global in-memory list for testing
+final List<TaskModel> tasks = [];
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,10 +25,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   runApp(const MainApp());
 }
-
-
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -44,6 +49,7 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< Updated upstream
     return FutureBuilder(
       future: _firebaseInit,
       builder: (context, snapshot) {
@@ -91,6 +97,26 @@ class _MainAppState extends State<MainApp> {
             body: Center(child: CircularProgressIndicator()),
           ),
         );
+=======
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      initialRoute: '/login',
+      routes: {
+        '/login': (context) => const LoginPage(),
+        '/signup': (context) => SignupPage(),
+
+        '/': (context) => HomePage(), // parent home
+        '/child-home': (context) => ChildHomePage(),
+        // Pass shared tasks to child tasks page
+        '/child-tasks': (context) => ChildTasksPage(tasks: tasks),
+
+        // Parent task pages
+        '/create-task': (context) => CreateTaskPage(tasks: tasks),
+        '/manage-tasks': (context) => ManageTasksPage(tasks: tasks),
+        
+        '/person-info': (context) => PersonInfoPage(),
+        '/settings': (context) => SettingsPage(),
+>>>>>>> Stashed changes
       },
     );
   }

@@ -48,16 +48,15 @@ class _SettingsPageState extends State<SettingsPage> {
       try {
         await FirebaseAuth.instance.signOut();
         if (mounted) {
-          Navigator.of(context).pushNamedAndRemoveUntil(
-            '/login',
-            (route) => false,
-          );
+          Navigator.of(
+            context,
+          ).pushNamedAndRemoveUntil('/login', (route) => false);
         }
       } catch (e) {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Logout failed: $e')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Logout failed: $e')));
         }
       }
     }
@@ -176,23 +175,34 @@ class _SettingsPageState extends State<SettingsPage> {
         children: [
           // Theme Section
           Card(
-            color: Colors.grey.shade800,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.grey.shade800
+                : Colors.grey.shade200,
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'Theme',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.black,
                     ),
                   ),
                   const SizedBox(height: 12),
                   RadioListTile<ThemeMode>(
-                    title: const Text('Light Mode'),
+                    title: Text(
+                      'Light Mode',
+                      style: TextStyle(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black,
+                      ),
+                    ),
                     value: ThemeMode.light,
                     groupValue: _selectedTheme,
                     onChanged: (value) {
@@ -204,7 +214,14 @@ class _SettingsPageState extends State<SettingsPage> {
                     contentPadding: EdgeInsets.zero,
                   ),
                   RadioListTile<ThemeMode>(
-                    title: const Text('Dark Mode'),
+                    title: Text(
+                      'Dark Mode',
+                      style: TextStyle(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black,
+                      ),
+                    ),
                     value: ThemeMode.dark,
                     groupValue: _selectedTheme,
                     onChanged: (value) {
@@ -216,7 +233,14 @@ class _SettingsPageState extends State<SettingsPage> {
                     contentPadding: EdgeInsets.zero,
                   ),
                   RadioListTile<ThemeMode>(
-                    title: const Text('System Default'),
+                    title: Text(
+                      'System Default',
+                      style: TextStyle(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black,
+                      ),
+                    ),
                     value: ThemeMode.system,
                     groupValue: _selectedTheme,
                     onChanged: (value) {
@@ -235,16 +259,23 @@ class _SettingsPageState extends State<SettingsPage> {
 
           // Account Section
           Card(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.grey.shade800
+                : Colors.grey.shade200,
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'Account',
                     style: TextStyle(
                       fontSize: 18,
-                      fontWeight: FontWeight.bold,                      color: Colors.white,                    ),
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.black,
+                    ),
                   ),
                   const SizedBox(height: 12),
                   SizedBox(

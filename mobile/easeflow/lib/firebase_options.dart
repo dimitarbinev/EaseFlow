@@ -3,7 +3,7 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
-    show defaultTargetPlatform, kIsWeb, TargetPlatform;
+    show defaultTargetPlatform, TargetPlatform;
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -32,7 +32,6 @@ class DefaultFirebaseOptions {
     }
   }
 
-
   static final FirebaseOptions android = FirebaseOptions(
     apiKey: dotenv.env['FIREBASE_API_KEY_ANDROID']!, // <- ! for non-null
     appId: '1:237921166775:android:6ae7e67cf2433287d5f432',
@@ -40,6 +39,4 @@ class DefaultFirebaseOptions {
     projectId: 'easeflow-f1130',
     storageBucket: 'easeflow-f1130.firebasestorage.app',
   );
-
-
 }

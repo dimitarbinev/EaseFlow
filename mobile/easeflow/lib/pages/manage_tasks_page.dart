@@ -27,21 +27,15 @@ class _ManageTasksPageState extends State<ManageTasksPage> {
     _fetchTasks();
   }
 
-  Future<String> _getChildUid() async {
+  Future<String> _getIdToken() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) throw Exception("User not logged in");
-    return user.uid;
+
+    final idToken = await user.getIdToken();
+    if (idToken == null) throw Exception("Failed to get Firebase ID token");
+
+    return idToken; // ✅ guaranteed non-null
   }
-
-Future<String> _getIdToken() async {
-  final user = FirebaseAuth.instance.currentUser;
-  if (user == null) throw Exception("User not logged in");
-
-  final idToken = await user.getIdToken();
-  if (idToken == null) throw Exception("Failed to get Firebase ID token");
-
-  return idToken; // ✅ guaranteed non-null
-}
 
   Future<void> _fetchTasks() async {
     setState(() => _loading = true);
@@ -58,7 +52,9 @@ Future<String> _getIdToken() async {
       );
 
       if (response.statusCode != 200) {
-        throw Exception("Backend error ${response.statusCode}: ${response.body}");
+        throw Exception(
+          "Backend error ${response.statusCode}: ${response.body}",
+        );
       }
 
       final dynamic data = jsonDecode(response.body);
@@ -82,8 +78,9 @@ Future<String> _getIdToken() async {
       debugPrint('Fetch tasks error: $e');
       if (mounted) {
         setState(() => _loading = false);
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Failed to load tasks: $e')));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to load tasks: $e')));
       }
     }
   }
@@ -100,10 +97,7 @@ Future<String> _getIdToken() async {
           "Authorization": "Bearer $idToken",
           "Content-Type": "application/json",
         },
-        body: jsonEncode({
-          'title': title.trim(),
-          'childUid': childUid.trim(),
-        }),
+        body: jsonEncode({'title': title.trim(), 'childUid': childUid.trim()}),
       );
 
       if (response.statusCode != 200) {
@@ -117,8 +111,9 @@ Future<String> _getIdToken() async {
     } catch (e) {
       debugPrint('Create task error: $e');
       if (mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Failed to create task: $e')));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to create task: $e')));
       }
     }
   }
@@ -180,11 +175,19 @@ Future<String> _getIdToken() async {
                 final task = _tasks[index];
                 return Card(
                   color: Colors.grey.shade800,
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
                   child: ListTile(
-                    title: Text(task.title, style: const TextStyle(color: Colors.white)),
-                    subtitle: Text('Child: ${task.childUid ?? ""}', style: const TextStyle(color: Colors.white70)),
+                    title: Text(
+                      task.title,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    subtitle: Text(
+                      'Child: ${task.childUid ?? ""}',
+                      style: const TextStyle(color: Colors.white70),
+                    ),
                     trailing: Checkbox(
                       activeColor: Colors.teal,
                       value: task.completed,

@@ -22,6 +22,8 @@ class _SignupPageState extends State<SignupPage> {
 
   String role = 'guardian'; // parent or child
   bool _loading = false;
+  bool _obscurePassword = true;
+  bool _obscureConfirm = true;
 
   // Replace with your backend endpoint
   final String backendUrl = 'https://jamie-subsatirical-abbreviatedly.ngrok-free.dev/auth/sign_up';
@@ -86,39 +88,96 @@ class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  const SizedBox(height: 40),
-                  const Text(
-                    'Create Account',
-                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 40),
-
-                  // DISPLAY NAME
-                  TextFormField(
-                    controller: displayNameController,
-                    decoration: const InputDecoration(
-                      labelText: 'Display Name',
-                      border: OutlineInputBorder(),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.teal.shade900,
+              Colors.teal.shade700,
+              Colors.grey.shade900,
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    const SizedBox(height: 30),
+                    const Icon(Icons.check_circle, size: 64, color: Colors.teal),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'EaseFlow',
+                      style: TextStyle(
+                        fontSize: 36,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        letterSpacing: 1.5,
+                      ),
                     ),
-                    validator: (value) =>
-                        value!.isEmpty ? 'Enter display name' : null,
-                  ),
+                    const Text(
+                      'Create Account',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.teal,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                    const SizedBox(height: 40),
+
+                    // DISPLAY NAME
+                    TextFormField(
+                      controller: displayNameController,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        labelText: 'Display Name',
+                        labelStyle: const TextStyle(color: Colors.white70),
+                        hintStyle: const TextStyle(color: Colors.white54),
+                        prefixIcon: const Icon(Icons.person, color: Colors.teal),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: Colors.teal),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: Colors.teal.shade400),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: const BorderSide(color: Colors.teal, width: 2),
+                        ),
+                      ),
+                      validator: (value) =>
+                          value!.isEmpty ? 'Enter display name' : null,
+                    ),
                   const SizedBox(height: 20),
 
                   // EMAIL
                   TextFormField(
                     controller: emailController,
-                    decoration: const InputDecoration(
+                    style: const TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
                       labelText: 'Email',
-                      border: OutlineInputBorder(),
+                      labelStyle: const TextStyle(color: Colors.white70),
+                      hintStyle: const TextStyle(color: Colors.white54),
+                      prefixIcon: const Icon(Icons.email, color: Colors.teal),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: const BorderSide(color: Colors.teal),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: Colors.teal.shade400),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: const BorderSide(color: Colors.teal, width: 2),
+                      ),
                     ),
                     validator: (value) =>
                         value!.isEmpty ? 'Enter email' : null,
@@ -128,10 +187,36 @@ class _SignupPageState extends State<SignupPage> {
                   // PASSWORD
                   TextFormField(
                     controller: passwordController,
-                    obscureText: true,
-                    decoration: const InputDecoration(
+                    obscureText: _obscurePassword,
+                    style: const TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
                       labelText: 'Password',
-                      border: OutlineInputBorder(),
+                      labelStyle: const TextStyle(color: Colors.white70),
+                      hintStyle: const TextStyle(color: Colors.white54),
+                      prefixIcon: const Icon(Icons.lock, color: Colors.teal),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                          color: Colors.white70,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscurePassword = !_obscurePassword;
+                          });
+                        },
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: const BorderSide(color: Colors.teal),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: Colors.teal.shade400),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: const BorderSide(color: Colors.teal, width: 2),
+                      ),
                     ),
                     validator: (value) =>
                         value!.length < 6 ? 'Min 6 characters' : null,
@@ -141,10 +226,36 @@ class _SignupPageState extends State<SignupPage> {
                   // CONFIRM PASSWORD
                   TextFormField(
                     controller: confirmController,
-                    obscureText: true,
-                    decoration: const InputDecoration(
+                    obscureText: _obscureConfirm,
+                    style: const TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
                       labelText: 'Confirm Password',
-                      border: OutlineInputBorder(),
+                      labelStyle: const TextStyle(color: Colors.white70),
+                      hintStyle: const TextStyle(color: Colors.white54),
+                      prefixIcon: const Icon(Icons.lock, color: Colors.teal),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscureConfirm ? Icons.visibility : Icons.visibility_off,
+                          color: Colors.white70,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscureConfirm = !_obscureConfirm;
+                          });
+                        },
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: const BorderSide(color: Colors.teal),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: Colors.teal.shade400),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: const BorderSide(color: Colors.teal, width: 2),
+                      ),
                     ),
                     validator: (value) =>
                         value != passwordController.text
@@ -153,18 +264,38 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                   const SizedBox(height: 20),
 
-                  // ROLE SELECTOR
+                  // ROLE SELECTOR (styled dropdown)
                   DropdownButtonFormField<String>(
-                    initialValue: role,
+                    value: role,
+                    dropdownColor: Colors.grey.shade900,
+                    icon: const Icon(Icons.keyboard_arrow_down, color: Colors.teal),
+                    style: const TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      labelText: 'Role',
+                      labelStyle: const TextStyle(color: Colors.white70),
+                      prefixIcon: const Icon(Icons.person, color: Colors.teal),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: const BorderSide(color: Colors.teal),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(color: Colors.teal.shade400),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: const BorderSide(color: Colors.teal, width: 2),
+                      ),
+                    ),
+                    onChanged: (value) {
+                      if (value != null) setState(() => role = value);
+                    },
                     items: const [
                       DropdownMenuItem(value: 'guardian', child: Text('Guardian')),
                       DropdownMenuItem(value: 'child', child: Text('Child')),
                     ],
-                    onChanged: (value) => setState(() => role = value!),
-                    decoration: const InputDecoration(
-                      labelText: 'Role',
-                      border: OutlineInputBorder(),
-                    ),
+                    validator: (value) => value == null || value.isEmpty ? 'Select role' : null,
                   ),
                   const SizedBox(height: 20),
 
@@ -185,12 +316,26 @@ class _SignupPageState extends State<SignupPage> {
                   // SIGNUP BUTTON
                   SizedBox(
                     width: double.infinity,
-                    height: 50,
+                    height: 56,
                     child: _loading
-                        ? const Center(child: CircularProgressIndicator())
+                        ? const Center(child: CircularProgressIndicator(color: Colors.teal))
                         : ElevatedButton(
                             onPressed: _signup,
-                            child: const Text('Create Account'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.teal,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              elevation: 4,
+                            ),
+                            child: const Text(
+                              'Create Account',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
                   ),
                   const SizedBox(height: 16),
@@ -204,7 +349,7 @@ class _SignupPageState extends State<SignupPage> {
             ),
           ),
         ),
-      ),
+      ),)
     );
   }
 }

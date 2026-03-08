@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../widgets/app_scaffold.dart';
 
 class SettingsPage extends StatefulWidget {
   final ValueChanged<ThemeMode>? onThemeChanged;
@@ -169,13 +170,13 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Settings')),
+    return AppScaffold(
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
           // Theme Section
           Card(
+            color: Colors.grey.shade800,
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
@@ -186,6 +187,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -242,8 +244,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     'Account',
                     style: TextStyle(
                       fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                      fontWeight: FontWeight.bold,                      color: Colors.white,                    ),
                   ),
                   const SizedBox(height: 12),
                   SizedBox(

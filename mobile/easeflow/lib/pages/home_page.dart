@@ -10,7 +10,11 @@ class HomePage extends StatelessWidget {
       body: Center(
         child: Text(
           'Welcome to EasyFlow!',
-          style: TextStyle(fontSize: 24),
+          style: TextStyle(
+            fontSize: 26,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
       ),
     );

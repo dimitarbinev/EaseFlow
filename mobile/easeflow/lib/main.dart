@@ -26,10 +26,12 @@ void main() async {
   // 🔥 MUST be first
   await dotenv.load(fileName: ".env");
 
-  // 🔥 THEN Firebase
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  // 🔥 THEN Firebase - only initialize if not already done
+  if (Firebase.apps.isEmpty) {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  }
 
   runApp(const MainApp());
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../widgets/app_scaffold.dart';
 
 class PersonInfoPage extends StatefulWidget {
   const PersonInfoPage({super.key});
@@ -131,8 +132,7 @@ class _PersonInfoPageState extends State<PersonInfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Person Info')),
+    return AppScaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -143,10 +143,16 @@ class _PersonInfoPageState extends State<PersonInfoPage> {
               // Child ID Field
                 TextFormField(
                   controller: childUidController,
-                  decoration: const InputDecoration(
+                  style: const TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
                     labelText: 'Child UID',
+                    labelStyle: const TextStyle(color: Colors.white70),
                     hintText: 'Enter child UID',
-                    border: OutlineInputBorder(),
+                    hintStyle: const TextStyle(color: Colors.white54),
+                    prefixIcon: const Icon(Icons.person, color: Colors.teal),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -160,10 +166,16 @@ class _PersonInfoPageState extends State<PersonInfoPage> {
               // Name Field
                 TextFormField(
                   controller: nameController,
-                decoration: const InputDecoration(
+                style: const TextStyle(color: Colors.white),
+                decoration: InputDecoration(
                   labelText: 'Name',
+                  labelStyle: const TextStyle(color: Colors.white70),
                   hintText: 'Enter child\'s name',
-                  border: OutlineInputBorder(),
+                  hintStyle: const TextStyle(color: Colors.white54),
+                  prefixIcon: const Icon(Icons.person, color: Colors.teal),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -177,11 +189,16 @@ class _PersonInfoPageState extends State<PersonInfoPage> {
               // Age Field
               TextFormField(
                 controller: ageController,
-                decoration: const InputDecoration(
+                style: const TextStyle(color: Colors.white),
+                decoration: InputDecoration(
                   labelText: 'Age',
+                  labelStyle: const TextStyle(color: Colors.white70),
                   hintText: 'Enter age',
-                  border: OutlineInputBorder(),
-                ),
+                  hintStyle: const TextStyle(color: Colors.white54),
+                  prefixIcon: const Icon(Icons.calendar_today, color: Colors.teal),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {

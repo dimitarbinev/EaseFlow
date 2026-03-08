@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import '../../models/task_model.dart';
+import '../widgets/app_scaffold.dart';
 
 class ManageTasksPage extends StatefulWidget {
   const ManageTasksPage({super.key});
@@ -159,38 +160,55 @@ Future<String> _getIdToken() async {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Manage Tasks')),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _showCreateTaskDialog,
-        child: const Icon(Icons.add),
+    return AppScaffold(
+      body: Stack(
+        children: [
+          if (_loading)
+            const Center(child: CircularProgressIndicator(color: Colors.teal)),
+          if (!_loading && _tasks.isEmpty)
+            const Center(
+              child: Text(
+                'No tasks yet',
+                style: TextStyle(color: Colors.white70, fontSize: 18),
+              ),
+            ),
+          if (!_loading && _tasks.isNotEmpty)
+            ListView.builder(
+              padding: const EdgeInsets.only(bottom: 80, top: 12),
+              itemCount: _tasks.length,
+              itemBuilder: (_, index) {
+                final task = _tasks[index];
+                return Card(
+                  color: Colors.grey.shade800,
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  child: ListTile(
+                    title: Text(task.title, style: const TextStyle(color: Colors.white)),
+                    subtitle: Text('Child: ${task.childUid ?? ""}', style: const TextStyle(color: Colors.white70)),
+                    trailing: Checkbox(
+                      activeColor: Colors.teal,
+                      value: task.completed,
+                      onChanged: (val) {
+                        setState(() {
+                          task.completed = val ?? false;
+                        });
+                      },
+                    ),
+                  ),
+                );
+              },
+            ),
+          Positioned(
+            bottom: 16,
+            right: 16,
+            child: FloatingActionButton(
+              onPressed: _showCreateTaskDialog,
+              backgroundColor: Colors.teal,
+              child: const Icon(Icons.add),
+            ),
+          ),
+        ],
       ),
-      body: _loading
-          ? const Center(child: CircularProgressIndicator())
-          : _tasks.isEmpty
-              ? const Center(child: Text('No tasks yet'))
-              : ListView.builder(
-                  itemCount: _tasks.length,
-                  itemBuilder: (_, index) {
-                    final task = _tasks[index];
-                    return Card(
-                      margin:
-                          const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                      child: ListTile(
-                        title: Text(task.title),
-                        subtitle: Text('Child: ${task.childUid ?? ""}'),
-                        trailing: Checkbox(
-                          value: task.completed,
-                          onChanged: (val) {
-                            setState(() {
-                              task.completed = val ?? false;
-                            });
-                          },
-                        ),
-                      ),
-                    );
-                  },
-                ),
     );
   }
 }

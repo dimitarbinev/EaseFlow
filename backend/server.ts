@@ -8,6 +8,7 @@ import authRoutes from './routes/authRoutes'
 import taskRoutes from './routes/taskRoutes'
 import profileRoutes from './routes/profileRoutes'
 
+
 const app = express();
 const PORT = process.env.PORT || 3000
 

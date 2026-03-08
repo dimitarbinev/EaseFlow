@@ -39,52 +39,6 @@ class _AppScaffoldState extends State<AppScaffold> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        width: 225,
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            Container(
-              height: 150,
-              color: Colors.teal,
-              padding: const EdgeInsets.all(16),
-              alignment: Alignment.bottomLeft,
-              child: Text(
-                'Menu',
-                style: TextStyle(
-                  fontSize: 30,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            ListTile(
-              title: const Text('Create Task'),
-              onTap: () {
-                Navigator.of(context).pushNamed('/create-task');
-              },
-            ),
-            ListTile(
-              title: const Text('Manage Tasks'),
-              onTap: () {
-                Navigator.of(context).pushNamed('/manage-tasks');
-              },
-            ),
-            ListTile(
-              title: const Text('Person Info'),
-              onTap: () {
-                Navigator.of(context).pushNamed('/person-info');
-              },
-            ),
-            ListTile(
-              title: const Text('Settings'),
-              onTap: () {
-                Navigator.of(context).pushNamed('/settings');
-              },
-            ),
-          ],
-        ),
-      ),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100),
         child: AppBar(
@@ -112,19 +66,6 @@ class _AppScaffoldState extends State<AppScaffold> {
                           color: Colors.red,
                           size: 100,
                         );
-                      },
-                    ),
-                  ),
-                ),
-                const Spacer(),
-                Padding(
-                  padding: const EdgeInsets.only(top: 25.0),
-                  child: Builder(
-                    builder: (context) => IconButton(
-                      iconSize: 46,
-                      icon: const Icon(Icons.menu),
-                      onPressed: () {
-                        Scaffold.of(context).openDrawer();
                       },
                     ),
                   ),

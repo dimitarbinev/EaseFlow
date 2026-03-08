@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'firebase_options.dart';
 
@@ -47,37 +46,10 @@ class MainApp extends StatefulWidget {
 class _MainAppState extends State<MainApp> {
   ThemeMode _themeMode = ThemeMode.dark;
 
-  @override
-  void initState() {
-    super.initState();
-    _loadTheme();
-  }
-
-  Future<void> _loadTheme() async {
-    final prefs = await SharedPreferences.getInstance();
-    final themeName = prefs.getString('theme_mode') ?? 'dark';
-    setState(() {
-      _themeMode = _getThemeModeFromString(themeName);
-    });
-  }
-
-  ThemeMode _getThemeModeFromString(String theme) {
-    switch (theme) {
-      case 'light':
-        return ThemeMode.light;
-      case 'system':
-        return ThemeMode.system;
-      default:
-        return ThemeMode.dark;
-    }
-  }
-
-  void _changeTheme(ThemeMode newTheme) async {
+  void _changeTheme(ThemeMode newTheme) {
     setState(() {
       _themeMode = newTheme;
     });
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('theme_mode', newTheme.toString().split('.').last);
   }
 
   @override

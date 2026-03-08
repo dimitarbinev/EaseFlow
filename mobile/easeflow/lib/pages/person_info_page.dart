@@ -199,6 +199,7 @@ class _PersonInfoPageState extends State<PersonInfoPage> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
+                ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -215,10 +216,16 @@ class _PersonInfoPageState extends State<PersonInfoPage> {
               // Reading Level Field
               TextFormField(
                 controller: readingLevelController,
-                decoration: const InputDecoration(
+                style: const TextStyle(color: Colors.white),
+                decoration: InputDecoration(
                   labelText: 'Reading Level (1-5)',
+                  labelStyle: const TextStyle(color: Colors.white70),
                   hintText: 'Enter reading level',
-                  border: OutlineInputBorder(),
+                  hintStyle: const TextStyle(color: Colors.white54),
+                  prefixIcon: const Icon(Icons.book, color: Colors.teal),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
                 keyboardType: TextInputType.number,
                 validator: (value) {
@@ -237,14 +244,22 @@ class _PersonInfoPageState extends State<PersonInfoPage> {
               // Tone Dropdown
               DropdownButtonFormField<String>(
                 initialValue: selectedTone,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Tone',
-                  border: OutlineInputBorder(),
+                  labelStyle: const TextStyle(color: Colors.white70),
+                  hintText: 'Select tone',
+                  hintStyle: const TextStyle(color: Colors.white54),
+                  prefixIcon: const Icon(Icons.mood, color: Colors.teal),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
+                style: const TextStyle(color: Colors.white),
+                dropdownColor: Colors.grey[800],
                 items: tones
                     .map((tone) => DropdownMenuItem(
                           value: tone,
-                          child: Text(tone),
+                          child: Text(tone, style: const TextStyle(color: Colors.white)),
                         ))
                     .toList(),
                 onChanged: (value) {
@@ -260,8 +275,36 @@ class _PersonInfoPageState extends State<PersonInfoPage> {
               const SizedBox(height: 16),
 
               // Step Length Dropdown
-             
-
+              DropdownButtonFormField<String>(
+                initialValue: selectedStepLength,
+                decoration: InputDecoration(
+                  labelText: 'Step Length',
+                  labelStyle: const TextStyle(color: Colors.white70),
+                  hintText: 'Select step length',
+                  hintStyle: const TextStyle(color: Colors.white54),
+                  prefixIcon: const Icon(Icons.accessibility, color: Colors.teal),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                style: const TextStyle(color: Colors.white),
+                dropdownColor: Colors.grey[800],
+                items: stepLengths
+                    .map((length) => DropdownMenuItem(
+                          value: length,
+                          child: Text(length, style: const TextStyle(color: Colors.white)),
+                        ))
+                    .toList(),
+                onChanged: (value) {
+                  setState(() => selectedStepLength = value);
+                },
+                validator: (value) {
+                  if (value == null) {
+                    return 'Please select a step length';
+                  }
+                  return null;
+                },
+              ),
               const SizedBox(height: 16),
 
               // Prefers Emojis Checkbox

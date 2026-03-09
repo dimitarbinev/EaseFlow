@@ -36,16 +36,28 @@ void main() async {
   runApp(const MainApp());
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatefulWidget {
   const MainApp({super.key});
+
+  @override
+  State<MainApp> createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> {
+  ThemeMode _themeMode = ThemeMode.dark;
+
+  void _changeTheme(ThemeMode newTheme) {
+    setState(() {
+      _themeMode = newTheme;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
 
-      // 🌙 FORCE DARK MODE
-      themeMode: ThemeMode.dark,
+      themeMode: _themeMode,
 
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
@@ -79,7 +91,10 @@ class MainApp extends StatelessWidget {
         '/manage-tasks': (context) => ManageTasksPage(),
 
         '/person-info': (context) => PersonInfoPage(),
-        '/settings': (context) => SettingsPage(),
+        '/settings': (context) => SettingsPage(
+          onThemeChanged: _changeTheme,
+          currentTheme: _themeMode,
+        ),
       },
     );
   }

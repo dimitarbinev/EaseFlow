@@ -1,58 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
-class AppScaffold extends StatelessWidget {
+class AppScaffold extends StatefulWidget {
   final Widget body;
   final String title;
 
   const AppScaffold({super.key, required this.body, this.title = 'EaseFlow'});
 
   @override
+  State<AppScaffold> createState() => _AppScaffoldState();
+}
+
+class _AppScaffoldState extends State<AppScaffold> {
+  int _selectedIndex = 0;
+
+  void _onNavItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    switch (index) {
+      case 0:
+        Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+        break;
+      case 1:
+        Navigator.of(context).pushNamed('/create-task');
+        break;
+      case 2:
+        Navigator.of(context).pushNamed('/manage-tasks');
+        break;
+      case 3:
+        Navigator.of(context).pushNamed('/person-info');
+        break;
+      case 4:
+        Navigator.of(context).pushNamed('/settings');
+        break;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        width: 225,
-        child: ListView(
-          
-          padding: EdgeInsets.zero,
-          children: [
-            Container(
-              height: 150,
-              color: Colors.teal,
-              padding: const EdgeInsets.all(16),
-              alignment: Alignment.bottomLeft,
-              child: Text(
-                'Menu',
-                style: TextStyle(fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-            ),
-            ListTile(
-              title: const Text('Create Task'),
-              onTap: () {
-                Navigator.of(context).pushNamed('/create-task');
-              },
-            ),
-            ListTile(
-              title: const Text('Manage Tasks'),
-              onTap: () {
-                Navigator.of(context).pushNamed('/manage-tasks');
-              },
-            ),
-            ListTile(
-              title: const Text('Person Info'),
-              onTap: () {
-                Navigator.of(context).pushNamed('/person-info');
-              },
-            ),
-            ListTile(
-              title: const Text('Settings'),
-              onTap: () {
-                Navigator.of(context).pushNamed('/settings');
-              },
-            ),
-          ],
-        ),
-      ),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100),
         child: AppBar(
@@ -64,7 +50,9 @@ class AppScaffold extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+                    Navigator.of(
+                      context,
+                    ).pushNamedAndRemoveUntil('/', (route) => false);
                   },
                   child: Padding(
                     padding: const EdgeInsets.only(top: 40.0),
@@ -73,20 +61,11 @@ class AppScaffold extends StatelessWidget {
                       height: 90,
                       fit: BoxFit.contain,
                       errorBuilder: (context, error, stackTrace) {
-                        return const Icon(Icons.error, color: Colors.red, size: 100);
-                      },
-                    ),
-                  ),
-                ),
-                const Spacer(),
-                Padding(
-                  padding: const EdgeInsets.only(top: 25.0),
-                  child: Builder(
-                    builder: (context) => IconButton(
-                      iconSize: 46,
-                      icon: const Icon(Icons.menu),
-                      onPressed: () {
-                        Scaffold.of(context).openDrawer();
+                        return const Icon(
+                          Icons.error,
+                          color: Colors.red,
+                          size: 100,
+                        );
                       },
                     ),
                   ),
@@ -97,7 +76,27 @@ class AppScaffold extends StatelessWidget {
           backgroundColor: Colors.teal[800],
         ),
       ),
-      body: body,
+      body: widget.body,
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: const Color(0xFF2a2a2a),
+        selectedItemColor: Colors.teal[400],
+        unselectedItemColor: Colors.grey[600],
+        currentIndex: _selectedIndex,
+        onTap: _onNavItemTapped,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_circle_outline),
+            label: 'Create',
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.task_alt), label: 'Tasks'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
+      ),
     );
   }
 }

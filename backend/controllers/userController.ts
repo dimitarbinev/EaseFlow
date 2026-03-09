@@ -2,9 +2,6 @@ import { Request, Response } from "express"
 import {db, FieldValue} from "../config/firbase"
 import { catch_async } from "../middleware/middleware"
 
-
-
-
 interface ChildProfile{
     name: string,
     age: number,
@@ -17,7 +14,7 @@ interface ChildProfile{
 }
 
 export const createProfile = catch_async(async (req: Request, res: Response) => {
-    const {guardianId, childUid, name, age, readingLevel, tone, prefersEmoji, avoidBrightColors} = req.body;
+    const {guardianId, childUid, name, age, readingLevel, tone, prefersEmoji, avoidBrightColors}: ChildProfile = req.body;
 
     if (!guardianId || !name || age === undefined || readingLevel === undefined) {
       return res.status(400).json({ message: 'Missing required fields' });
@@ -40,8 +37,6 @@ export const createProfile = catch_async(async (req: Request, res: Response) => 
 
     const docRef = db.collection('child_profiles').doc(childUid);
     await docRef.set(profile, { merge: true });
-
-    // Add the child UID to guardian profile
     const guardianRef = db.collection('profiles').doc(guardianId);
     await guardianRef.update({
       children: FieldValue.arrayUnion(childUid)
